@@ -7,26 +7,37 @@ class CollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        // Заменяем на название нашего класса, в котором будет ячейка (делаем шаблон)
+        self.collectionView!.register(CollectionViewListCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
     }
 
     // MARK: UICollectionViewDataSource
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 0
+        //  У нас один список
+        return 1
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return musicArray.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? CollectionViewListCell else {
+            return UICollectionViewCell()
+        }
         
+        //  Присваиваем информацию из наших mock-данных данным константам
+        let music = musicArray[indexPath.row]
+        let image = UIImage(systemName: music.image)
         
+        //  Настраиваем ячейку
+        let config = cell.configure(track: music.title, image: image)
+        cell.contentConfiguration = config
+        
+        //  Возвращаем ячейку
         return cell
     }
 }
