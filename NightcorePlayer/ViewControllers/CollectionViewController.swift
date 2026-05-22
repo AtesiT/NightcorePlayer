@@ -7,9 +7,16 @@ class CollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Заменяем на название нашего класса, в котором будет ячейка (делаем шаблон)
-        self.collectionView!.register(CollectionViewListCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        //  Настройка ячейки (её размеры)
+        //  Создание конфигурации списка
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        //  Создание layout, основываясь на нашей конфигурации
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        //  Присваиваем layout со стилем .plain для нашего класса в viewLayout
+        self.collectionView.collectionViewLayout = layout
         
+        // Заменяем на название нашего класса. Регистрация нашей ячейки.
+        self.collectionView!.register(CollectionViewListCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     }
 
     // MARK: UICollectionViewDataSource
@@ -30,7 +37,7 @@ class CollectionViewController: UICollectionViewController {
         }
         
         //  Присваиваем информацию из наших mock-данных данным константам
-        let music = musicArray[indexPath.row]
+        let music = musicArray[indexPath.item]
         let image = UIImage(systemName: music.image)
         
         //  Настраиваем ячейку
