@@ -38,11 +38,23 @@ class CollectionViewController: UICollectionViewController {
         
         //  Присваиваем информацию из наших mock-данных данным константам
         let music = musicArray[indexPath.item]
+        
+        let title = music.title
         let image = UIImage(systemName: music.image)
+        let artist = music.artist
+        let duration = music.duration
         
         //  Настраиваем ячейку
-        let config = cell.configure(track: music.title, image: image)
+        let config = cell.configure(track: title, image: image, artist: artist, duration: duration)
         cell.contentConfiguration = config
+        
+        //  Создаём правую часть для ячейки, в котором будет указана длительность трека
+        let durationOnRightSideLine = UICellAccessory.label(
+            text: duration,
+            //  reversedLayout 0 автоматически расчитывает ширину для текста
+            options: .init(isHidden: false, reservedLayoutWidth: .custom(0), tintColor: .secondaryLabel, font: UIFont.systemFont(ofSize: 14), adjustsFontForContentSizeCategory: true)
+        )
+        cell.accessories = [durationOnRightSideLine]
         
         //  Возвращаем ячейку
         return cell
