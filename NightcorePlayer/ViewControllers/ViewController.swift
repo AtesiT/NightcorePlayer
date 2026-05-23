@@ -37,6 +37,20 @@ final class ViewController: UIViewController {
         view.addSubview(artistTrack)
         setConstraints()
     }
+    
+    private func createButton(systemName: String, action: @escaping () -> Void) -> UIButton {
+        //  Создаём стандартную конфигурацию у кнопки
+        var config = UIButton.Configuration.plain()
+        //  Присваиваем кнопке изображение
+        config.image = UIImage(systemName: systemName)
+        //  Присваиваем действие
+        let action = UIAction { _ in action() }
+        //  Создаём саму кнопку
+        let button = UIButton(configuration: config, primaryAction: action)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }
 }
 
 extension ViewController {
