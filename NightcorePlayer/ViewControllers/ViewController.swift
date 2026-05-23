@@ -54,6 +54,32 @@ final class ViewController: UIViewController {
         print("Mix Music")
     }
     
+    private lazy var currentTimeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "0:00"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var musicTimeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "0:00"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var sliderValueTime = Float(0)
+    
+    private lazy var sliderTime: UISlider = {
+        let slider = UISlider()
+        slider.value = sliderValueTime
+        slider.minimumValue = 0
+        slider.maximumValue = 100
+        slider.addTarget(self, action: #selector(sliderChanged), for: .valueChanged)
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        return slider
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(trackImageView)
@@ -64,6 +90,9 @@ final class ViewController: UIViewController {
         view.addSubview(pauseMusic)
         view.addSubview(next15seconds)
         view.addSubview(mixMusic)
+        view.addSubview(currentTimeLabel)
+        view.addSubview(sliderTime)
+        view.addSubview(musicTimeLabel)
         setConstraints()
     }
     
@@ -79,6 +108,11 @@ final class ViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
+    }
+    
+    @objc private func sliderChanged(_ sender: UISlider) {
+        self.sliderValueTime = sender.value
+        print("Slider is:", sliderValueTime)
     }
 }
 
@@ -117,6 +151,17 @@ extension ViewController {
             mixMusic.leadingAnchor.constraint(equalTo: next15seconds.leadingAnchor, constant: 60),
             
             //  Other
+            
+            currentTimeLabel.topAnchor.constraint(equalTo: listenAgainMusic.bottomAnchor, constant: 20),
+            currentTimeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            
+            sliderTime.topAnchor.constraint(equalTo: listenAgainMusic.bottomAnchor, constant: 20),
+            sliderTime.leadingAnchor.constraint(equalTo: currentTimeLabel.trailingAnchor, constant: 20),
+            sliderTime.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100),
+            
+            musicTimeLabel.topAnchor.constraint(equalTo: listenAgainMusic.bottomAnchor, constant: 20),
+            musicTimeLabel.leadingAnchor.constraint(equalTo: sliderTime.trailingAnchor, constant: 20),
+            
         ])
     }
 }
