@@ -30,11 +30,40 @@ final class ViewController: UIViewController {
         return label
     }()
 
+    /*
+            BUTTONS
+     */
+    
+    private lazy var listenAgainMusic = createButton(systemName: "arrow.trianglehead.counterclockwise") {
+        print("Listen again music")
+    }
+    
+    private lazy var back15seconds = createButton(systemName: "15.arrow.trianglehead.counterclockwise") {
+        print("Back 15 seconds")
+    }
+    
+    private lazy var pauseMusic = createButton(systemName: "playpause.fill") {
+        print("Play or pause music")
+    }
+    
+    private lazy var next15seconds = createButton(systemName: "15.arrow.trianglehead.clockwise") {
+        print("Next 15 seconds")
+    }
+    
+    private lazy var mixMusic = createButton(systemName: "waveform.path") {
+        print("Mix Music")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(trackImageView)
         view.addSubview(nameTrack)
         view.addSubview(artistTrack)
+        view.addSubview(listenAgainMusic)
+        view.addSubview(back15seconds)
+        view.addSubview(pauseMusic)
+        view.addSubview(next15seconds)
+        view.addSubview(mixMusic)
         setConstraints()
     }
     
@@ -69,6 +98,25 @@ extension ViewController {
             artistTrack.topAnchor.constraint(equalTo: nameTrack.bottomAnchor, constant: 20),
             artistTrack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -60),
             artistTrack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 60),
+            
+            //  Buttons
+            
+            listenAgainMusic.topAnchor.constraint(equalTo: artistTrack.bottomAnchor, constant: 20),
+            listenAgainMusic.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            
+            back15seconds.topAnchor.constraint(equalTo: artistTrack.bottomAnchor, constant: 20),
+            back15seconds.leadingAnchor.constraint(equalTo: listenAgainMusic.leadingAnchor, constant: 60),
+
+            pauseMusic.topAnchor.constraint(equalTo: artistTrack.bottomAnchor, constant: 20),
+            pauseMusic.leadingAnchor.constraint(equalTo: back15seconds.leadingAnchor, constant: 60),
+            
+            next15seconds.topAnchor.constraint(equalTo: artistTrack.bottomAnchor, constant: 20),
+            next15seconds.leadingAnchor.constraint(equalTo: pauseMusic.leadingAnchor, constant: 60),
+            
+            mixMusic.topAnchor.constraint(equalTo: artistTrack.bottomAnchor, constant: 20),
+            mixMusic.leadingAnchor.constraint(equalTo: next15seconds.leadingAnchor, constant: 60),
+            
+            //  Other
         ])
     }
 }
