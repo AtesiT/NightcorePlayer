@@ -17,7 +17,7 @@ final class TabBarViewController: UITabBarController {
         let theFirstCollectionVC = CollectionViewController(collectionViewLayout: layout)
         theFirstCollectionVC.title = "Music List"
         
-        let theFirstVC = UIViewController()
+        let theFirstVC = ViewController()
         theFirstVC.view.backgroundColor = .systemBackground
         theFirstVC.title = "Music"
         
