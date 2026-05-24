@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 
 final class TabBarViewController: UITabBarController {
     
@@ -26,13 +27,37 @@ final class TabBarViewController: UITabBarController {
             textField.placeholder = "Исполнитель"
         }
         
-        let saveAction = UIAlertAction(title: "Сохранить", style: .default)
+        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { [weak self] _ in
+            guard let musicTitle = alert.textFields?[0].text, !musicTitle.isEmpty, let artistName = alert.textFields?[1].text, !artistName.isEmpty else {
+                return
+            }
+            self?.saveMusic(title: musicTitle, artist: artistName)
+        }
+        
         let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
         
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
         
         present(alert, animated: true)
+    }
+    
+    private func saveMusic(title: String, artist: String, duration: String = "?") {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let newMusic = Track(context: viewContext)
+        newMusic.title = title
+        newMusic.artist = artist
+        newMusic.duration = duration
+        
+        do {
+            try viewContext.save()
+            print("Музыкальный трек был сохранён")
+        } catch {
+            print(error.localizedDescription)
+        }
+        
     }
 }
  

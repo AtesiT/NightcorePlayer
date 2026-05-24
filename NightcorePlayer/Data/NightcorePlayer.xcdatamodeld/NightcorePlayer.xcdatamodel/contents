@@ -3,6 +3,7 @@
     <entity name="Track" representedClassName="Track" syncable="YES" codeGenerationType="class">
         <attribute name="artist" optional="YES" attributeType="String"/>
         <attribute name="duration" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
 </model>
