@@ -1,7 +1,10 @@
 import UIKit
 
 final class TabBarViewController: UITabBarController {
-
+    
+    private lazy var addMusicButton = UIBarButtonItem(
+        barButtonSystemItem: .add, target: self, action: #selector(addMusicButtonAction)
+    )
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -10,12 +13,19 @@ final class TabBarViewController: UITabBarController {
         setToolBar()
     }
     
+    @objc private func addMusicButtonAction() {
+        print("Check")
+    }
+}
+ 
+extension TabBarViewController {
     private func setToolBar() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         
         let theFirstCollectionVC = CollectionViewController(collectionViewLayout: layout)
         theFirstCollectionVC.title = "Music List"
+        theFirstCollectionVC.navigationItem.rightBarButtonItem = addMusicButton
         
         let theFirstVC = ViewController()
         theFirstVC.view.backgroundColor = .systemBackground
