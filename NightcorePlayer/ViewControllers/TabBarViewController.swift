@@ -15,6 +15,24 @@ final class TabBarViewController: UITabBarController {
     
     @objc private func addMusicButtonAction() {
         print("Check")
+        
+        let alert = UIAlertController(title: "Новый трек", message: "Введите название трека", preferredStyle: .alert)
+        
+        alert.addTextField { textField in
+            textField.placeholder = "Название"
+        }
+        
+        alert.addTextField { textField in
+            textField.placeholder = "Исполнитель"
+        }
+        
+        let saveAction = UIAlertAction(title: "Сохранить", style: .default)
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
     }
 }
  
