@@ -54,6 +54,10 @@ final class ViewController: UIViewController {
         print("Mix Music")
     }
     
+    /*
+            THE LINE WITH DURATION AND TIME
+     */
+    
     private lazy var currentTimeLabel: UILabel = {
         let label = UILabel()
         label.text = "0:00"
@@ -80,19 +84,13 @@ final class ViewController: UIViewController {
         return slider
     }()
     
+    /*
+            ADDITIONAL FUNCS
+     */
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(trackImageView)
-        view.addSubview(nameTrack)
-        view.addSubview(artistTrack)
-        view.addSubview(listenAgainMusic)
-        view.addSubview(back15seconds)
-        view.addSubview(pauseMusic)
-        view.addSubview(next15seconds)
-        view.addSubview(mixMusic)
-        view.addSubview(currentTimeLabel)
-        view.addSubview(sliderTime)
-        view.addSubview(musicTimeLabel)
+        setViews(views: trackImageView, nameTrack, artistTrack, listenAgainMusic, back15seconds, pauseMusic, next15seconds, mixMusic, currentTimeLabel, sliderTime, musicTimeLabel)
         setConstraints()
     }
     
@@ -114,7 +112,15 @@ final class ViewController: UIViewController {
         self.sliderValueTime = sender.value
         print("Slider is:", sliderValueTime)
     }
+    
+    private func setViews(views: UIView...) {
+        views.forEach { theView in
+            view.addSubview(theView)
+        }
+    }
 }
+
+//  MARK: - SET CONSTRAINTS
 
 extension ViewController {
     func setConstraints() {
