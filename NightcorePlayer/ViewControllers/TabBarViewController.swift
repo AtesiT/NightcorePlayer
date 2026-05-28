@@ -87,9 +87,43 @@ extension TabBarViewController: UIDocumentPickerDelegate {
         viewControllers = [theNavigationCollectionController, theNavigationViewController]
     }
     
-    private func openFilePicker() {
+    func openFilePicker() {
         let musicPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.mp3, .wav, .audio])
         musicPicker.delegate = self
+        musicPicker.allowsMultipleSelection = false
         present(musicPicker, animated: true)
+    }
+    
+    func documentPicker(_ documentPicker: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        //  Вытаскиваем первый url из массива. Если url отсутствует, то выходим из функции.
+        guard let selectedUrl = urls.first else { return }
+     
+        //  Получаем временное разрешение, чтобы прочитать файл
+        guard selectedUrl.startAccessingSecurityScopedResource() else {
+            print("Нет доступа к файлу")
+            return
+        }
+                
+        //  Гарантия, что временное разрешение пропадёт после того, как метод завершит своё действие
+        defer {
+            selectedUrl.stopAccessingSecurityScopedResource()
+        }
+        
+        do {
+            //  Путь, по которому хранится файл
+            let documentThatContainsFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            //  Расширение файла
+            let theFileEnding = selectedUrl.pathExtension
+            //  Уникальное имя файла (для защиты от перезаписи)
+            let uniqueFileName = "\(UUID().uuidString).\(theFileEnding)"
+            //  Итоговые путь, в который мы сохраним наш файл
+            let destinationThatWillbeFileURL = documentThatContainsFileURL.appendingPathComponent(uniqueFileName)
+            //  Коипруем файл из "Файлы" в наше приложение
+            try FileManager.default.copyItem(at: selectedUrl, to: destinationThatWillbeFileURL)
+            //  Уведомление, что музыка из "Файлы" перенесена наше приложение
+            print("Музыка сохранена")
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
