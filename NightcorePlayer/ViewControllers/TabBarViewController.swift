@@ -1,10 +1,11 @@
 import UIKit
 import CoreData
+import UniformTypeIdentifiers
 
 final class TabBarViewController: UITabBarController {
     
     private lazy var addMusicButton = UIBarButtonItem(
-        barButtonSystemItem: .add, target: self, action: #selector(addMusicButtonAction)
+        barButtonSystemItem: .add, target: self, action: #selector(openFilePickerMusic)
     )
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -12,6 +13,10 @@ final class TabBarViewController: UITabBarController {
         view.backgroundColor = .systemBackground
         
         setToolBar()
+    }
+    
+    @objc private func openFilePickerMusic() {
+        openFilePicker()
     }
     
     @objc private func addMusicButtonAction() {
@@ -61,7 +66,7 @@ final class TabBarViewController: UITabBarController {
     }
 }
  
-extension TabBarViewController {
+extension TabBarViewController: UIDocumentPickerDelegate {
     private func setToolBar() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -80,5 +85,11 @@ extension TabBarViewController {
         theNavigationViewController.tabBarItem = UITabBarItem(title: "Music", image: UIImage(systemName: "music.note"), tag: 1)
         
         viewControllers = [theNavigationCollectionController, theNavigationViewController]
+    }
+    
+    private func openFilePicker() {
+        let musicPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.mp3, .wav, .audio])
+        musicPicker.delegate = self
+        present(musicPicker, animated: true)
     }
 }
